@@ -22,7 +22,7 @@ public class BaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         faceLight = Typeface.createFromAsset(getAssets(), "Montserrat-Light.otf");
         internetStatus = new InternetStatus(BaseActivity.this);
-        client = ServiceGenaretor.createService(ServiceCalls.class);
+//        client = ServiceGenaretor.createService(ServiceCalls.class);
     }
 
     @Override
