@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.OtpActivity">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.3"
+        android:background="@drawable/superdocexmpllogo2"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="0.1"
+        android:layout_height="0dp" >
+
+        <TextView
+            android:id="@+id/supdoc3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="SuperDoc"
+            android:textColor="#14bbd3"
+            android:textSize="40dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_weight="0.4"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:textColor="#707070"
+            android:text="Enter OTP"
+            android:textSize="20sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <!--<EditText-->
+            <!--android:id="@+id/et_otp"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_marginRight="10dp"-->
+            <!--android:inputType="phone"-->
+            <!--android:gravity="center" />-->
+            <EditText
+                android:id="@+id/et_1"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rectangular_shape"
+                android:enabled="false"
+                android:textColor="#707070"
+                android:gravity="center"
+                android:hint="0" />
+
+            <EditText
+                android:id="@+id/et_2"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:enabled="false"
+                android:textColor="#707070"
+                android:background="@drawable/rectangular_shape"
+                android:gravity="center"
+                android:hint="0" />
+
+            <EditText
+                android:id="@+id/et_3"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/rectangular_shape"
+                android:gravity="center"
+                android:textColor="#707070"
+                android:enabled="false"
+                android:hint="0" />
+
+            <EditText
+                android:id="@+id/et_4"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:textColor="#707070"
+                android:background="@drawable/rectangular_shape"
+                android:gravity="center"
+                android:enabled="false"
+                android:hint="0" />
+
+
+
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/iv_verify_otp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="right"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/rounded_shape"
+            android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center">
+    <ImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:layout_marginBottom="5dp"
+        android:src="@drawable/poweredby2"/>
+    <TextView
+            android:visibility="gone"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="powered by ImediHub"
+            android:textColor="#582974"
+    android:gravity="center|bottom"/>
+    </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
