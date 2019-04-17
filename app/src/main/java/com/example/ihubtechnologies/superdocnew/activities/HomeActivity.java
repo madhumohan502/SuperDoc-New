@@ -1,19 +1,26 @@
 package com.example.ihubtechnologies.superdocnew.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
+import com.example.ihubtechnologies.superdocnew.pojos.response.DoctorSessionResponse;
+import com.example.ihubtechnologies.superdocnew.utils.BaseActivity;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-public class ConfirmationActivity extends AppCompatActivity {
+public class HomeActivity extends BaseActivity {
     @BindView(R.id.hello)
     TextView hello;
     @BindView(R.id.tv_doctor_name)
@@ -32,7 +39,7 @@ public class ConfirmationActivity extends AppCompatActivity {
     ImageView ivVerifyOtp;
     @BindView(R.id.layout_gotoactualscreen)
     LinearLayout layoutGotoactualscreen;
-
+    String doctorid;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +49,7 @@ public class ConfirmationActivity extends AppCompatActivity {
 
     @OnClick(R.id.iv_verify_otp)
     public void onViewClicked() {
-
+        Intent i = new Intent(HomeActivity.this,DoctorSessionActivity.class);
+        startActivity(i);
     }
 }

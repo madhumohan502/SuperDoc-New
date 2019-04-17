@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ServiceGenaretor {
 
-    public static final String API_BASE_URL = "www.google.com";
+    public static final String API_BASE_URL = "http://183.82.109.67:8080/doctor_appointments/rest/doctorConsult/";
 
     public static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(API_BASE_URL)

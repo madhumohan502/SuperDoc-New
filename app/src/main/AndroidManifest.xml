@@ -3,6 +3,11 @@
     package="com.example.ihubtechnologies.superdocnew">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -10,24 +15,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.SplashActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+        <activity android:name=".activities.TestActivity"></activity>
+        <activity
+            android:name=".activities.SplashActivity"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden|adjustPan|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="adjustResize|stateHidden"
-            android:fitsSystemWindows="true" />
+        <activity
+            android:name=".activities.LoginActivity"
+            android:fitsSystemWindows="true"
+            android:theme="@style/AppTheme.NoActionBar" /> <!-- android:windowSoftInputMode="stateVisible|adjustResize|stateHidden" -->
         <activity
             android:name=".activities.OtpActivity"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"/>
-        <activity android:name=".activities.ConfirmationActivity"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:windowSoftInputMode="stateHidden" />
+
+        <receiver android:name=".receivers.IncomingSms">
+            <intent-filter>
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".activities.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".activities.AllAppointmentsActivity" />
+        <activity android:name=".activities.DoctorSessionActivity" />
     </application>
 
 </manifest>

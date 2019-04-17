@@ -33,19 +33,17 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
 
-//                if (sessionManager.getDOCTORID() != null) {
-//                    Intent i = new Intent(SplashActivity.this, CurrentStatus2Activity.class);
-//                    startActivity(i);
-//                } else {
-//                    Intent i = new Intent(SplashActivity.this, TermsActivity.class);
-//                    startActivity(i);
+                if (sessionManager.getDOCTORID() != null) {
+                    Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                    startActivity(i);
+                } else {
                     Intent i = new Intent(SplashActivity.this, LoginActivity.class);
                     startActivity(i);
-//                }
+                }
+//                    Intent i = new Intent(SplashActivity.this, LoginActivity.class);
+//                    startActivity(i);
                 finish();
             }
         }, SPLASH_TIME_OUT);
-
-
     }
 }

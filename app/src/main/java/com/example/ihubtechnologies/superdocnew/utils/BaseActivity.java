@@ -1,9 +1,11 @@
 package com.example.ihubtechnologies.superdocnew.utils;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.ihubtechnologies.superdocnew.R;
@@ -14,27 +16,28 @@ import com.example.ihubtechnologies.superdocnew.network.ServiceGenaretor;
 public class BaseActivity extends AppCompatActivity {
     public Typeface faceLight;
     public InternetStatus internetStatus;
-    public ServiceCalls client;
+    public ServiceCalls serviceCalls;
+    public SessionManager sessionManager;
     private ProgressDialog dialog;
-
+    public AlertDialog.Builder builder;
+    public AlertDialog alertDialog;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         faceLight = Typeface.createFromAsset(getAssets(), "Montserrat-Light.otf");
         internetStatus = new InternetStatus(BaseActivity.this);
-//        client = ServiceGenaretor.createService(ServiceCalls.class);
+        sessionManager = new SessionManager(BaseActivity.this);
+        serviceCalls = ServiceGenaretor.createService(ServiceCalls.class);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         }
 
     @Override
     protected void onResume() {
         super.onResume();
-
     }
 
     @Override
@@ -53,6 +56,23 @@ public class BaseActivity extends AppCompatActivity {
     public final void closeDialog() {
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
+        }
+    }
+    public final void showAlertDialog(String message) {
+        try {
+            builder = new AlertDialog.Builder(BaseActivity.this);
+            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+            alertDialog = builder.create();
+            alertDialog.setTitle("Message");
+            alertDialog.setMessage(message);
+            alertDialog.show();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }
