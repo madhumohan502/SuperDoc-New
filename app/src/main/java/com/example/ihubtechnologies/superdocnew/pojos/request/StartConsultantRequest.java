@@ -8,11 +8,9 @@ public class StartConsultantRequest {
      */
 
     private int appId;
-    private int startConsultant;
 
-    public StartConsultantRequest(int appId, int startConsultant) {
+    public StartConsultantRequest(int appId) {
         this.appId = appId;
-        this.startConsultant = startConsultant;
     }
 
     public int getAppId() {
@@ -23,11 +21,10 @@ public class StartConsultantRequest {
         this.appId = appId;
     }
 
-    public int getStartConsultant() {
-        return startConsultant;
-    }
-
-    public void setStartConsultant(int startConsultant) {
-        this.startConsultant = startConsultant;
+    @Override
+    public String toString() {
+        return "StartConsultantRequest{" +
+                "appId=" + appId +
+                '}';
     }
 }

@@ -31,31 +31,14 @@ public class TestActivity extends BaseActivity {
 
     }
 
-    private void listOfAllAppointments() {
-        Call<List<AllAppointmentsResponse>> call = serviceCalls.getListOfAllAppointments(doctorId);
-        call.enqueue(new Callback<List<AllAppointmentsResponse>>() {
-            @Override
-            public void onResponse(Call<List<AllAppointmentsResponse>> call, Response<List<AllAppointmentsResponse>> response) {
-                if (response.code() == 200) {
 
-                } else {
-                    showAlertDialog("failed");
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<AllAppointmentsResponse>> call, Throwable t) {
-                showAlertDialog(t.getMessage());
-            }
-        });
-    }
 
     private void startConsultant() {
         /**
          * appId : 120
          * startConsultant : 1
          */
-        StartConsultantRequest startConsultantRequest = new StartConsultantRequest(0, 0);
+        StartConsultantRequest startConsultantRequest = new StartConsultantRequest(0);
         Call<StartConsultantResponse> call = serviceCalls.doStartConsultant(startConsultantRequest);
         call.enqueue(new Callback<StartConsultantResponse>() {
             @Override
@@ -63,7 +46,7 @@ public class TestActivity extends BaseActivity {
                 if (response.code() == 200) {
 
                 } else {
-                    showAlertDialog("failed");
+                    showAlertDialog("Error :"+response.code());
                 }
             }
 
@@ -82,7 +65,7 @@ public class TestActivity extends BaseActivity {
                 if (response.code() == 200) {
 
                 } else {
-                    showAlertDialog("failed");
+                    showAlertDialog("Error :"+response.code());
                 }
             }
 
@@ -94,7 +77,7 @@ public class TestActivity extends BaseActivity {
     }
 
     private void closeConsultant() {
-        CloseConsultantRequest closeConsultantRequest = new CloseConsultantRequest(0, 0);
+        CloseConsultantRequest closeConsultantRequest = new CloseConsultantRequest(0);
         Call<CloseConsultantResponse> call = serviceCalls.doCloseConsultant(closeConsultantRequest);
         call.enqueue(new Callback<CloseConsultantResponse>() {
             @Override
@@ -102,7 +85,7 @@ public class TestActivity extends BaseActivity {
                 if (response.code() == 200) {
 
                 } else {
-                    showAlertDialog("failed");
+                    showAlertDialog("Error :"+response.code());
                 }
             }
 
@@ -121,7 +104,7 @@ public class TestActivity extends BaseActivity {
                 if (response.code() == 200) {
 
                 } else {
-                    showAlertDialog("failed");
+                    showAlertDialog("Error :"+response.code());
                 }
             }
 

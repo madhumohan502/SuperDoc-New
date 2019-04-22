@@ -8,11 +8,10 @@ public class CloseConsultantRequest {
      */
 
     private int appId;
-    private int startConsultant;
 
-    public CloseConsultantRequest(int appId, int startConsultant) {
+
+    public CloseConsultantRequest(int appId) {
         this.appId = appId;
-        this.startConsultant = startConsultant;
     }
 
     public int getAppId() {
@@ -23,11 +22,5 @@ public class CloseConsultantRequest {
         this.appId = appId;
     }
 
-    public int getStartConsultant() {
-        return startConsultant;
-    }
 
-    public void setStartConsultant(int startConsultant) {
-        this.startConsultant = startConsultant;
-    }
 }

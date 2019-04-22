@@ -19,10 +19,26 @@ public class SessionManager {
 
 
     public static final String DOCTORID = "doctorid";
+    public static final String DOCTORNAME = "doctorname";
+    public static final String HOSPITALNAME = "hospitalname";
 
 
 
+    public void setDOCTORNAME(String doctorname) {
+        editor.putString(DOCTORNAME, doctorname);
+        editor.commit();
+    }
+    public static String getDOCTORNAME() {
+        return sharedPreferences.getString(DOCTORNAME, null);
+    }
 
+    public void setHOSPITALNAME(String hospitalname) {
+        editor.putString(HOSPITALNAME, hospitalname);
+        editor.commit();
+    }
+    public static String getHOSPITALNAME() {
+        return sharedPreferences.getString(HOSPITALNAME, null);
+    }
 
     public void setDOCTORID(String doctorid) {
         editor.putString(DOCTORID, doctorid);

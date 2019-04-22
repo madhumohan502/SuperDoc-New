@@ -35,16 +35,23 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DoctorSessionHolder holder, int i) {
-        holder.tvDate.setText(doctorSessionResponses.get(i).getTodayAppointmentsCount());
+    public void onBindViewHolder(@NonNull DoctorSessionHolder holder, final int i) {
+        holder.tvDate.setText(String.valueOf(doctorSessionResponses.get(i).getTodayAppointmentsCount()));
         holder.tvHospitalName.setText(doctorSessionResponses.get(i).getOrganizationName());
-        holder.tvFromToTime.setText(doctorSessionResponses.get(i).getDoctorSessionId());
+        holder.tvFromToTime.setText(doctorSessionResponses.get(i).getSessionTime());
+        holder.tvDate.setTypeface(doctorSessionActivity.faceLight);
+        holder.tvHospitalName.setTypeface(doctorSessionActivity.faceLight);
+        holder.tvFromToTime.setTypeface(doctorSessionActivity.faceLight);
+
 
         holder.cardview_item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(doctorSessionActivity, AllAppointmentsActivity.class);
-                doctorSessionActivity.startActivity(i);
+                Intent intent = new Intent(doctorSessionActivity, AllAppointmentsActivity.class);
+                intent.putExtra("AppointmentsCount", String.valueOf(doctorSessionResponses.get(i).getTodayAppointmentsCount()));
+                intent.putExtra("OrganizationName", doctorSessionResponses.get(i).getOrganizationName());
+                intent.putExtra("SessionTime", doctorSessionResponses.get(i).getSessionTime());
+                doctorSessionActivity.startActivity(intent);
             }
         });
     }

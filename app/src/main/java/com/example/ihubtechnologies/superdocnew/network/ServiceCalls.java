@@ -36,17 +36,13 @@ public interface ServiceCalls {
     @GET("listOfAllAppointments")
     Call<List<AllAppointmentsResponse>> getListOfAllAppointments(@Query("doctorId") String doctorId);
 
-    @POST("startConsultant")
+    @POST("startConsultation")
     Call<StartConsultantResponse> doStartConsultant(@Body StartConsultantRequest startConsultantRequest);
 
     @GET("listOfAllConfirmedAppointments")
     Call<List<ConfirmedAppointmentsResponse>> getListOfConfirmedAppointments(@Query("doctorId") String doctorId);
 
-
-
-
-
-    @POST("startConsultant")
+    @POST("closeConsultation")
     Call<CloseConsultantResponse> doCloseConsultant(@Body CloseConsultantRequest closeConsultantRequest);
 
 
@@ -55,4 +51,7 @@ public interface ServiceCalls {
 
     @GET("listOfAllClosedAppointments")
     Call<List<ClosedAppointmentsResponse>> getAllClosedAppointments(@Query("doctorId") String doctorId);
+
+    @GET("listOfAllAppointments")
+    Call<List<AllAppointmentsResponse>> getAllAppointments(@Query("doctorId") String doctorid);
 }

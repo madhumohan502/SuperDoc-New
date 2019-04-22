@@ -17,8 +17,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="5"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_marginRight="30dp"
             android:background="@drawable/superdocexmpllogo2"
             android:scaleType="fitXY"/>
         <TextView
@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="SuperDoc"
             android:textColor="#14bbd3"
-            android:textSize="35dp" />
+            android:textSize="40dp" />
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -69,7 +69,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/rectangular_shape"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:textColor="#707070"
                     android:gravity="center"
                     android:hint="0" />
@@ -79,7 +79,7 @@
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:textColor="#707070"
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
@@ -93,7 +93,7 @@
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
                     android:textColor="#707070"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:hint="0" />
 
                 <EditText
@@ -104,7 +104,7 @@
                     android:textColor="#707070"
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
-                    android:enabled="true"
+                    android:enabled="false"
                     android:hint="0" />
 
             </LinearLayout>

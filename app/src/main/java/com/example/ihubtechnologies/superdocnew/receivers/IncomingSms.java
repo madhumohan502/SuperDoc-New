@@ -31,7 +31,8 @@ public class IncomingSms extends BroadcastReceiver {
                     String phoneNumber = currentMessage.getDisplayOriginatingAddress();
 
                     String senderNum = phoneNumber;
-                    String message = currentMessage.getDisplayMessageBody().split(": ")[1];
+                    Log.d("otpmessage",currentMessage.getDisplayMessageBody());
+                    String message = currentMessage.getDisplayMessageBody().split(" : ")[1];
 
 
                     String message1 = message.substring(0, message.length()-3);

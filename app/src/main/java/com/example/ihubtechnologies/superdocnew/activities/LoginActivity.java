@@ -35,7 +35,8 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 //        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 //        this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.activity_login2);
+        //new CommentKeyBoardFix(this);
         ButterKnife.bind(this);
         supdoc2 = findViewById(R.id.supdoc2);
         supdoc2.setTypeface(faceLight);
@@ -60,7 +61,7 @@ public class LoginActivity extends BaseActivity {
                         startActivity(i);
                         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
                     }else {
-                        Toast.makeText(LoginActivity.this, "please enter valid mobile number", Toast.LENGTH_LONG).show();
+                        showAlertDialog("Error :"+response.code());
                     }
 
                 }

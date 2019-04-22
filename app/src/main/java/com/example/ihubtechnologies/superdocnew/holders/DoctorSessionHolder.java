@@ -14,9 +14,9 @@ public class DoctorSessionHolder extends RecyclerView.ViewHolder {
     public LinearLayout cardview_item;
     public DoctorSessionHolder(@NonNull View itemView) {
         super(itemView);
-        tvDate = itemView.findViewById(R.id.tv_date);
-        tvHospitalName = itemView.findViewById(R.id.tv_hospital_name);
-        tvFromToTime = itemView.findViewById(R.id.tv_fromtime_totime);
+        tvDate = itemView.findViewById(R.id.tv_item_date);
+        tvHospitalName = itemView.findViewById(R.id.tv_item_hospital_name);
+        tvFromToTime = itemView.findViewById(R.id.tv_item_fromtime_totime);
         cardview_item = itemView.findViewById(R.id.cardview_item);
     }
 }

@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Toast;
 
 import com.example.ihubtechnologies.superdocnew.R;
+import com.example.ihubtechnologies.superdocnew.activities.TypefaceUtil;
 import com.example.ihubtechnologies.superdocnew.network.InternetStatus;
 import com.example.ihubtechnologies.superdocnew.network.ServiceCalls;
 import com.example.ihubtechnologies.superdocnew.network.ServiceGenaretor;
@@ -46,7 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public final void showDialog() {
-        dialog = new ProgressDialog(BaseActivity.this);
+        dialog = new ProgressDialog(BaseActivity.this,R.style.AlertDialogColor);
         dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         dialog.setMessage(getResources().getString(R.string.loading_text));
         dialog.setCancelable(false);
@@ -74,5 +76,8 @@ public class BaseActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    public final void showToast(String message){
+        Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
     }
 }

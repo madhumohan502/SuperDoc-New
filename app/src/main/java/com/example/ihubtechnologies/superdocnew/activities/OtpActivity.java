@@ -4,11 +4,13 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -41,6 +43,7 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_otp2);
+       // new CommentKeyBoardFix(this);
         ButterKnife.bind(this);
         mobile = getIntent().getExtras().getString("mobile");
         supdoc3 = findViewById(R.id.supdoc3);
@@ -141,11 +144,15 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
                         if (response.code() == 200) {
                             OtpVerificationResponse otpVerificationResponse = response.body();
                             sessionManager.setDOCTORID(otpVerificationResponse.getDoctorId());
+                            sessionManager.setDOCTORNAME(otpVerificationResponse.getDoctorName());
+                            sessionManager.setHOSPITALNAME(otpVerificationResponse.getOrganization());
                             Intent i = new Intent(OtpActivity.this,HomeActivity.class);
+                            i.putExtra("doctorname",otpVerificationResponse.getDoctorName());
+                            i.putExtra("hospitalname",otpVerificationResponse.getOrganization());
                             startActivity(i);
 
                         } else {
-                            Toast.makeText(OtpActivity.this, "Please Enter Valid OTP", Toast.LENGTH_LONG).show();
+                            showAlertDialog("Error :"+response.code());
                         }
 
                     }
@@ -158,5 +165,16 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
                 });
                 break;
         }
+    }
+    @Override
+    public void onResume() {
+        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("otp"));
+        super.onResume();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(receiver);
     }
 }

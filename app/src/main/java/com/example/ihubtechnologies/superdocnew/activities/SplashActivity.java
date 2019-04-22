@@ -1,11 +1,9 @@
 package com.example.ihubtechnologies.superdocnew.activities;
 
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
@@ -20,7 +18,7 @@ public class SplashActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         supdoc = findViewById(R.id.supdoc);
-        supdoc.setTypeface(faceLight);
+//        supdoc.setTypeface(faceLight);
 
 
         new Handler().postDelayed(new Runnable() {
@@ -29,7 +27,9 @@ public class SplashActivity extends BaseActivity {
              * Showing splash screen with a timer. This will be useful when you
              * want to show case your app logo / company
              */
-
+//   5305 6200 0242 1945
+     //  10/17   -   10/22
+     //   078
             @Override
             public void run() {
 

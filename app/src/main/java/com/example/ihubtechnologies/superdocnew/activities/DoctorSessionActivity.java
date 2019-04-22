@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
 import com.example.ihubtechnologies.superdocnew.adapters.DoctorSessionAdapter;
@@ -13,6 +14,7 @@ import com.example.ihubtechnologies.superdocnew.utils.BaseActivity;
 
 import java.util.List;
 
+import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -20,12 +22,20 @@ import retrofit2.Response;
 public class DoctorSessionActivity extends BaseActivity {
     RecyclerView rview;
     DoctorSessionAdapter doctorSessionAdapter;
-
+TextView tvDoctorName;
+TextView tvHello;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.doctor_session_activity);
+        ButterKnife.bind(this);
         rview = findViewById(R.id.rview);
+        tvDoctorName = findViewById(R.id.tv_doctor_name);
+        tvDoctorName.setText(sessionManager.getDOCTORNAME());
+        tvHello = findViewById(R.id.hello);
+        tvHello.setTypeface(faceLight);
+        tvDoctorName.setTypeface(faceLight);
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rview.setLayoutManager(linearLayoutManager);
         rview.setHasFixedSize(true);
@@ -41,11 +51,15 @@ public class DoctorSessionActivity extends BaseActivity {
                 closeDialog();
                 if (response.code() == 200) {
                     List<DoctorSessionResponse> doctorSessionResponses = response.body();
-                    doctorSessionAdapter = new DoctorSessionAdapter(DoctorSessionActivity.this, doctorSessionResponses);
-                    rview.setAdapter(doctorSessionAdapter);
-                    doctorSessionAdapter.notifyDataSetChanged();
+                    if (doctorSessionResponses.size()==0){
+                        showAlertDialog("No Sessions Found");
+                    }else {
+                        doctorSessionAdapter = new DoctorSessionAdapter(DoctorSessionActivity.this, doctorSessionResponses);
+                        rview.setAdapter(doctorSessionAdapter);
+                        doctorSessionAdapter.notifyDataSetChanged();
+                    }
                 } else {
-                    showAlertDialog("failed");
+                    showAlertDialog("Error :"+response.code());
                 }
             }
 
