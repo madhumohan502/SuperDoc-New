@@ -1,5 +1,6 @@
 package com.example.ihubtechnologies.superdocnew.activities;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
@@ -34,6 +35,7 @@ public class AllAppointmentsActivity extends BaseActivity {
    public ConfirmedAppointmentsAdapter confirmedAppointmentsAdapter;
     String AppointmentsCount, OrganizationName, SessionTime;
     int int_allAppointmentsSize, int_noshowAppointmentsSize, int_checkinAppointmentsSize, int_cancelAppointmentsSize;
+    LinearLayout linearLayout;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +59,25 @@ public class AllAppointmentsActivity extends BaseActivity {
         tvHospitalName = findViewById(R.id.tv_hospital_name);
         tvSessionTime = findViewById(R.id.tv_session_time);
 
+        linearLayout = findViewById(R.id.id_layout1);
+
         tvAppointmentsCount.setTypeface(faceLight);
         tvHospitalName.setTypeface(faceLight);
         tvSessionTime.setTypeface(faceLight);
 
-        tvAppointmentsCount.setText(AppointmentsCount);
-        tvHospitalName.setText(OrganizationName);
-        tvSessionTime.setText(SessionTime);
 
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            String imageTransitionName =  getIntent().getExtras().getString("name");
+            linearLayout.setTransitionName(imageTransitionName);
+            tvAppointmentsCount.setText(AppointmentsCount);
+            tvHospitalName.setText(OrganizationName);
+            tvSessionTime.setText(SessionTime);
+            supportStartPostponedEnterTransition();
+
+
+        }
         rview = findViewById(R.id.rview);
         linearLayoutManager = new LinearLayoutManager(this);
         rview.setLayoutManager(linearLayoutManager);

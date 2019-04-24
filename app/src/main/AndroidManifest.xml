@@ -31,7 +31,8 @@
         <activity
             android:name=".activities.LoginActivity"
             android:fitsSystemWindows="true"
-            android:theme="@style/AppTheme.NoActionBar.FullScreen" /> <!-- android:windowSoftInputMode="stateVisible|adjustResize|stateHidden" -->
+            android:theme="@style/AppTheme.NoActionBar.FullScreen"
+            android:windowSoftInputMode="stateVisible|adjustResize|stateHidden"/>
         <activity
             android:name=".activities.OtpActivity"
             android:theme="@style/AppTheme.NoActionBar.FullScreen"
