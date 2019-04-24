@@ -20,7 +20,6 @@ public class ServiceGenaretor {
             .client(okHttpClient)
             .build();
 
-// my comment
     public static <S> S createService(Class<S> serviceClass) {
         return retrofit.create(serviceClass);
     }

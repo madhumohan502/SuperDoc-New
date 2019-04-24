@@ -1,10 +1,15 @@
 package com.example.ihubtechnologies.superdocnew.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
@@ -19,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DoctorSessionActivity extends BaseActivity {
+public class DoctorSessionActivity extends BaseActivity implements DoctorSessionAdapter.redirector {
     RecyclerView rview;
     DoctorSessionAdapter doctorSessionAdapter;
 TextView tvDoctorName;
@@ -71,4 +76,21 @@ TextView tvHello;
         });
     }
 
+    @Override
+    public void sendData(int a, LinearLayout linearLayout, int count, String orgName, String time) {
+        Intent intent = new Intent(DoctorSessionActivity.this, AllAppointmentsActivity.class);
+        intent.putExtra("count", String.valueOf(count));
+        intent.putExtra("orgName",orgName);
+        intent.putExtra("time",time);
+
+        intent.putExtra("name", ViewCompat.getTransitionName(linearLayout));
+
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                DoctorSessionActivity.this,
+                linearLayout,
+                ViewCompat.getTransitionName(linearLayout));
+
+        ActivityCompat.startActivity(DoctorSessionActivity.this, intent, options.toBundle());
+
+    }
 }

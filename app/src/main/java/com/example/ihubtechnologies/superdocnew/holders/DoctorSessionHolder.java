@@ -11,12 +11,13 @@ import com.example.ihubtechnologies.superdocnew.R;
 
 public class DoctorSessionHolder extends RecyclerView.ViewHolder {
     public TextView tvDate,tvHospitalName,tvFromToTime;
-    public LinearLayout cardview_item;
+    public LinearLayout cardview_item, transation_layout;
     public DoctorSessionHolder(@NonNull View itemView) {
         super(itemView);
         tvDate = itemView.findViewById(R.id.tv_item_date);
         tvHospitalName = itemView.findViewById(R.id.tv_item_hospital_name);
         tvFromToTime = itemView.findViewById(R.id.tv_item_fromtime_totime);
         cardview_item = itemView.findViewById(R.id.cardview_item);
+        transation_layout = itemView.findViewById(R.id.id_layout);
     }
 }
