@@ -12,7 +12,6 @@ public class ServiceGenaretor {
             .addConverterFactory(GsonConverterFactory.create())
             .build();
 
-// my comment
     public static <S> S createService(Class<S> serviceClass) {
         return retrofit.create(serviceClass);
     }
