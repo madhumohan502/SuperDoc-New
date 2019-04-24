@@ -79,9 +79,9 @@ TextView tvHello;
     @Override
     public void sendData(int a, LinearLayout linearLayout, int count, String orgName, String time) {
         Intent intent = new Intent(DoctorSessionActivity.this, AllAppointmentsActivity.class);
-        intent.putExtra("count", String.valueOf(count));
-        intent.putExtra("orgName",orgName);
-        intent.putExtra("time",time);
+        intent.putExtra("AppointmentsCount", String.valueOf(count));
+        intent.putExtra("OrganizationName",orgName);
+        intent.putExtra("SessionTime",time);
 
         intent.putExtra("name", ViewCompat.getTransitionName(linearLayout));
 

@@ -160,11 +160,11 @@ public class AllAppointmentsActivity extends BaseActivity {
 
     private void getAllAppointmentsSize() {
         Call<List<AllAppointmentsResponse>> call = serviceCalls.getAllAppointments(sessionManager.getDOCTORID());
-        showDialog();
+//        showDialog();
         call.enqueue(new Callback<List<AllAppointmentsResponse>>() {
             @Override
             public void onResponse(Call<List<AllAppointmentsResponse>> call, Response<List<AllAppointmentsResponse>> response) {
-                closeDialog();
+//                closeDialog();
                 if (response.code() == 200) {
                     List<AllAppointmentsResponse> allAppointmentsResponses = response.body();
                     int_allAppointmentsSize = allAppointmentsResponses.size();
@@ -178,7 +178,7 @@ public class AllAppointmentsActivity extends BaseActivity {
 
             @Override
             public void onFailure(Call<List<AllAppointmentsResponse>> call, Throwable t) {
-                closeDialog();
+//                closeDialog();
                 showAlertDialog(t.getMessage());
             }
         });
