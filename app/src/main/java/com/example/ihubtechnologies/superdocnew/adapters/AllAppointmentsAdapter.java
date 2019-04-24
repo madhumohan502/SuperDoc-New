@@ -84,8 +84,9 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
 
             @Override
             public void onOpen(SwipeLayout layout) {
-//starting consultaion
-                if (layout.getDragEdge() == SwipeLayout.DragEdge.Left){
+
+                //starting consultaion
+                if (layout.getDragEdge() == SwipeLayout.DragEdge.Left) {
 //starting timer
                     startChronometer(holder);
 
@@ -93,20 +94,25 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
                         Collections.swap(allAppointmentsResponses, i, 0);
                         notifyItemMoved(i, 0);
 
-
-
                     layout.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (layout.getOpenStatus() == SwipeLayout.Status.Open){
-                                if (layout.getDragEdge() == SwipeLayout.DragEdge.Left){
+                            if (layout.getOpenStatus() == SwipeLayout.Status.Open) {
+                                if (layout.getDragEdge() == SwipeLayout.DragEdge.Left) {
                                     appid = allAppointmentsResponses.get(i).getApptID();
-                                    startConsultation(holder, appid);
+                                    try {
+                                        startConsultation(holder, appid);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                    }
                                 }
                             }
                         }
                     }, 3000);
+
+
                 }
+
             }
 
             @Override
