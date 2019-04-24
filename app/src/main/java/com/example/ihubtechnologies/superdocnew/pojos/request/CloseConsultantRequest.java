@@ -22,5 +22,10 @@ public class CloseConsultantRequest {
         this.appId = appId;
     }
 
-
+    @Override
+    public String toString() {
+        return "CloseConsultantRequest{" +
+                "appId=" + appId +
+                '}';
+    }
 }

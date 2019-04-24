@@ -12,7 +12,9 @@ import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
 import com.example.ihubtechnologies.superdocnew.adapters.AllAppointmentsAdapter;
+import com.example.ihubtechnologies.superdocnew.adapters.ConfirmedAppointmentsAdapter;
 import com.example.ihubtechnologies.superdocnew.pojos.response.AllAppointmentsResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.ConfirmedAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.utils.BaseActivity;
 import com.example.ihubtechnologies.superdocnew.utils.SessionManager;
 
@@ -23,11 +25,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AllAppointmentsActivity extends BaseActivity {
-    RecyclerView rview;
+    public RecyclerView rview;
+    public LinearLayoutManager linearLayoutManager;
     TextView tvAppointmentsCount, tvHospitalName, tvSessionTime;
     LinearLayout allAppointments, checkinAppointments, noshowAppointments, cancelAppointments;
     TextView allAppointmentsSize, checkinAppointmentsSize, noshowAppointmentsSize, cancelAppointmentsSize;
    public AllAppointmentsAdapter allAppointmentsAdapter;
+   public ConfirmedAppointmentsAdapter confirmedAppointmentsAdapter;
     String AppointmentsCount, OrganizationName, SessionTime;
     int int_allAppointmentsSize, int_noshowAppointmentsSize, int_checkinAppointmentsSize, int_cancelAppointmentsSize;
     @Override
@@ -62,12 +66,14 @@ public class AllAppointmentsActivity extends BaseActivity {
         tvSessionTime.setText(SessionTime);
 
         rview = findViewById(R.id.rview);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        linearLayoutManager = new LinearLayoutManager(this);
         rview.setLayoutManager(linearLayoutManager);
         rview.setHasFixedSize(true);
 
         getAllAppointmentsSize();
+        getlistOfConfirmedAppointmentsSize();
         getAllAppointments();
+
 
         allAppointments.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +92,7 @@ public class AllAppointmentsActivity extends BaseActivity {
                 checkinAppointments.setBackgroundResource(R.drawable.tv_bottom_line_dark);
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
-                getAllAppointments();
+                getlistOfConfirmedAppointments();
             }
         });
         noshowAppointments.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +102,7 @@ public class AllAppointmentsActivity extends BaseActivity {
                 checkinAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_dark);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
-                getAllAppointments();
+                getlistOfConfirmedAppointments();
             }
         });
         cancelAppointments.setOnClickListener(new View.OnClickListener() {
@@ -106,10 +112,37 @@ public class AllAppointmentsActivity extends BaseActivity {
                 checkinAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_dark);
-                getAllAppointments();
+                getlistOfConfirmedAppointments();
             }
         });
 
+    }
+
+
+    private void getlistOfConfirmedAppointmentsSize() {
+        Call<List<ConfirmedAppointmentsResponse>> call = serviceCalls.getListOfConfirmedAppointments(sessionManager.getDOCTORID());
+//        showDialog();
+        call.enqueue(new Callback<List<ConfirmedAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<ConfirmedAppointmentsResponse>> call, Response<List<ConfirmedAppointmentsResponse>> response) {
+//                closeDialog();
+                if (response.code() == 200) {
+                    List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList = response.body();
+                    int_checkinAppointmentsSize = confirmedAppointmentsResponseList.size();
+                    checkinAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
+                    noshowAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
+                    cancelAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
+                } else {
+                    showAlertDialog("Error :" + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ConfirmedAppointmentsResponse>> call, Throwable t) {
+//                closeDialog();
+                showAlertDialog(t.getMessage());
+            }
+        });
     }
 
     private void getAllAppointmentsSize() {
@@ -124,9 +157,7 @@ public class AllAppointmentsActivity extends BaseActivity {
                     int_allAppointmentsSize = allAppointmentsResponses.size();
                     Log.d("sizeeeee", String.valueOf(int_allAppointmentsSize));
                     allAppointmentsSize.setText(String.valueOf(int_allAppointmentsSize));
-                    checkinAppointmentsSize.setText(String.valueOf(int_allAppointmentsSize));
-                    noshowAppointmentsSize.setText(String.valueOf(int_allAppointmentsSize));
-                    cancelAppointmentsSize.setText(String.valueOf(int_allAppointmentsSize));
+
                 } else {
                     showAlertDialog("Error :"+response.code());
                 }
@@ -168,6 +199,40 @@ public class AllAppointmentsActivity extends BaseActivity {
             @Override
             public void onFailure(Call<List<AllAppointmentsResponse>> call, Throwable t) {
                 closeDialog();
+                showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    public void getlistOfConfirmedAppointments() {
+        Call<List<ConfirmedAppointmentsResponse>> call = serviceCalls.getListOfConfirmedAppointments(sessionManager.getDOCTORID());
+//        showDialog();
+        call.enqueue(new Callback<List<ConfirmedAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<ConfirmedAppointmentsResponse>> call, Response<List<ConfirmedAppointmentsResponse>> response) {
+//                closeDialog();
+                if (response.code() == 200) {
+                    List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList = response.body();
+                    if (confirmedAppointmentsResponseList.size()==0){
+                        rview.setAdapter(null);
+                        showAlertDialog("No Confirmed Appointments Found");
+                    }else {
+                        confirmedAppointmentsAdapter = new ConfirmedAppointmentsAdapter(AllAppointmentsActivity.this,confirmedAppointmentsResponseList);
+                        rview.setAdapter(confirmedAppointmentsAdapter);
+                        confirmedAppointmentsAdapter.notifyDataSetChanged();
+
+//                        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
+//                        linearSnapHelper.attachToRecyclerView(rview);
+
+                    }
+                } else {
+                    showAlertDialog("Error :" + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ConfirmedAppointmentsResponse>> call, Throwable t) {
+//                closeDialog();
                 showAlertDialog(t.getMessage());
             }
         });

@@ -6,7 +6,7 @@ import android.app.Application;
  * Created by vamsi on 06-05-2017 for android custom font article
  */
 
-public class CustomFontApp extends Application {
+public class CustomFontClass extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

@@ -1,8 +1,10 @@
 package com.example.ihubtechnologies.superdocnew.adapters;
 
 import android.content.ClipData;
+import android.os.SystemClock;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +20,10 @@ import com.example.ihubtechnologies.superdocnew.pojos.request.CloseConsultantReq
 import com.example.ihubtechnologies.superdocnew.pojos.request.StartConsultantRequest;
 import com.example.ihubtechnologies.superdocnew.pojos.response.AllAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.CloseConsultantResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.ConfirmedAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.StartConsultantResponse;
 
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -29,9 +33,10 @@ import retrofit2.Response;
 public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointmentsHolder> {
     AllAppointmentsActivity allAppointmentsActivity;
     List<AllAppointmentsResponse> allAppointmentsResponses;
+    List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList;
     int appid;
     int startConsult;
-
+    ////to open one recycler-view item at a time
     SwipeItemRecyclerMangerImpl mItemManger = new SwipeItemRecyclerMangerImpl(this);
 
     public AllAppointmentsAdapter(AllAppointmentsActivity allAppointmentsActivity, List<AllAppointmentsResponse> allAppointmentsResponses) {
@@ -40,6 +45,7 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
 
 
     }
+
 
     @NonNull
     @Override
@@ -54,7 +60,7 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
     @Override
     public void onBindViewHolder(@NonNull final AllAppointmentsHolder holder, final int i) {
         holder.tvTime.setText(allAppointmentsResponses.get(i).getApptTime());
-        holder.tvPatientName.setText(allAppointmentsResponses.get(i).getPatientName());
+        holder.tvPatientName.setText(allAppointmentsResponses.get(i).getPatientName() + "/" + allAppointmentsResponses.get(i).getApptID());
         holder.tvApptStatus.setText(allAppointmentsResponses.get(i).getApptStatus());
 //        holder.tvTime.setTypeface(allAppointmentsActivity.faceLight);
 //        holder.tvPatientName.setTypeface(allAppointmentsActivity.faceLight);
@@ -67,27 +73,39 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
 
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Left, holder.swipeLayout.findViewById(R.id.left_to_right_undo));
         holder.swipeLayout.addDrag(SwipeLayout.DragEdge.Right, holder.swipeLayout.findViewById(R.id.right_to_left));
-
+//to open one recycler-view item at a time
         mItemManger.bindView(holder.itemView, i);
         holder.swipeLayout.addSwipeListener(new SwipeLayout.SwipeListener() {
             @Override
             public void onStartOpen(SwipeLayout layout) {
                 mItemManger.closeAllExcept(layout);
+
             }
 
             @Override
             public void onOpen(SwipeLayout layout) {
+//starting consultaion
                 if (layout.getDragEdge() == SwipeLayout.DragEdge.Left){
+//starting timer
+                    startChronometer(holder);
+
+//swaping item to top
+                        Collections.swap(allAppointmentsResponses, i, 0);
+                        notifyItemMoved(i, 0);
+
+
+
                     layout.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             if (layout.getOpenStatus() == SwipeLayout.Status.Open){
                                 if (layout.getDragEdge() == SwipeLayout.DragEdge.Left){
-                                    startConsultation(holder);
+                                    appid = allAppointmentsResponses.get(i).getApptID();
+                                    startConsultation(holder, appid);
                                 }
                             }
                         }
-                    },5000);
+                    }, 3000);
                 }
             }
 
@@ -112,14 +130,28 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
             }
         });
 
+
 //        holder.tvStart.setTypeface(allAppointmentsActivity.faceLight);
 //        holder.tvConsult.setTypeface(allAppointmentsActivity.faceLight);
 //        holder.tvUndoText.setTypeface(allAppointmentsActivity.faceLight);
+
+        holder.checkout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appid = allAppointmentsResponses.get(i).getApptID();
+                stopChronometer(holder, appid);
+
+
+            }
+        });
+
         holder.undo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 appid = allAppointmentsResponses.get(i).getApptID();
                 holder.swipeLayout.close();
+
+                resetChronometer(holder, appid);
 //                closeConsultation(holder);
 
             }
@@ -135,45 +167,57 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
 //                    startConsult = 0;
 //                }
 
-               // startConsultation();
+                // startConsultation();
+            }
+        });
+        holder.cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                appid = allAppointmentsResponses.get(i).getApptID();
+                //closeConsultation(holder);
+            }
+        });
+        holder.noshow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 
     }
 
-    private void closeConsultation(AllAppointmentsHolder holder) {
-        /**
-         * appId : 120
-         * startConsultant : 1
-         */
-        CloseConsultantRequest closeConsultantRequest = new CloseConsultantRequest(appid);
-        Log.d("startConsultantRequest", closeConsultantRequest.toString());
-        Call<CloseConsultantResponse> call = allAppointmentsActivity.serviceCalls.doCloseConsultant(closeConsultantRequest);
-        call.enqueue(new Callback<CloseConsultantResponse>() {
-            @Override
-            public void onResponse(Call<CloseConsultantResponse> call, Response<CloseConsultantResponse> response) {
-                if (response.code() == 200) {
-                    CloseConsultantResponse closeConsultantResponse = response.body();
-                    allAppointmentsActivity.showAlertDialog(closeConsultantResponse.getMsg());
+    private void stopChronometer(AllAppointmentsHolder holder, int appid) {
+        if (holder.running) {
+            holder.chronometer.stop();
+            holder.pauseOffSet = SystemClock.elapsedRealtime() - holder.chronometer.getBase();
+            holder.running = false;
+            allAppointmentsActivity.showToast("chronometer-stopped");
+            int elapsedMillis = (int) (SystemClock.elapsedRealtime() - holder.chronometer.getBase());
+            String elapsedTime = holder.chronometer.getText().toString();
+            Log.d("elapsedMillis1", String.valueOf(elapsedMillis));
+            Log.d("elapsedMillis2", holder.chronometer.getText().toString());
 
-//                    if (holder.swipeLayout.getDragEdge() == SwipeLayout.DragEdge.Left){
-                       holder.swipeLayout.close();
-//                    }
-
-
-                } else {
-                    allAppointmentsActivity.showAlertDialog("Error :" + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<CloseConsultantResponse> call, Throwable t) {
-                allAppointmentsActivity.showAlertDialog(t.getMessage());
-            }
-        });
+            closeConsultation(holder, appid, elapsedMillis, elapsedTime);
+        }
     }
 
-    private void startConsultation(AllAppointmentsHolder holder) {
+    private void resetChronometer(AllAppointmentsHolder holder, int appid) {
+        holder.chronometer.setBase(SystemClock.elapsedRealtime());
+        holder.pauseOffSet = 0;
+        allAppointmentsActivity.showToast("chronometer-reset");
+    }
+
+    private void startChronometer(AllAppointmentsHolder holder) {
+        if (!holder.running) {
+            holder.chronometer.setBase(SystemClock.elapsedRealtime() - holder.pauseOffSet);
+            holder.chronometer.start();
+            holder.running = true;
+
+        }
+    }
+
+
+    private void startConsultation(AllAppointmentsHolder holder, int appid) {
         /**
          * appId : 120
          * startConsultant : 1
@@ -181,15 +225,18 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
         StartConsultantRequest startConsultantRequest = new StartConsultantRequest(appid);
         Log.d("startConsultantRequest", startConsultantRequest.toString());
         Call<StartConsultantResponse> call = allAppointmentsActivity.serviceCalls.doStartConsultant(startConsultantRequest);
+        allAppointmentsActivity.showDialog();
         call.enqueue(new Callback<StartConsultantResponse>() {
             @Override
             public void onResponse(Call<StartConsultantResponse> call, Response<StartConsultantResponse> response) {
+                allAppointmentsActivity.closeDialog();
                 if (response.code() == 200) {
                     StartConsultantResponse startConsultantResponse = response.body();
                     //allAppointmentsActivity.showAlertDialog(startConsultantResponse.getMsg());
                     allAppointmentsActivity.showToast(startConsultantResponse.getMsg());
 
-                    holder.swipeLayout.addView(holder.swipeLayout.findViewById(R.id.layout_timer));
+                    holder.layout_undo.setVisibility(View.GONE);
+                    holder.layout_timer.setVisibility(View.VISIBLE);
 
                 } else {
                     allAppointmentsActivity.showAlertDialog("Error :" + response.code());
@@ -198,6 +245,39 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
 
             @Override
             public void onFailure(Call<StartConsultantResponse> call, Throwable t) {
+                allAppointmentsActivity.closeDialog();
+                allAppointmentsActivity.showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    private void closeConsultation(AllAppointmentsHolder holder, int appid, int elapsedMillis, String elapsedTime) {
+        /**
+         * appId : 120
+         * startConsultant : 1
+         */
+        CloseConsultantRequest closeConsultantRequest = new CloseConsultantRequest(appid);
+        Log.d("startConsultantRequest", closeConsultantRequest.toString());
+        Call<CloseConsultantResponse> call = allAppointmentsActivity.serviceCalls.doCloseConsultant(closeConsultantRequest);
+        allAppointmentsActivity.showDialog();
+        call.enqueue(new Callback<CloseConsultantResponse>() {
+            @Override
+            public void onResponse(Call<CloseConsultantResponse> call, Response<CloseConsultantResponse> response) {
+                allAppointmentsActivity.closeDialog();
+                if (response.code() == 200) {
+                    CloseConsultantResponse closeConsultantResponse = response.body();
+                    holder.swipeLayout.close();
+                    allAppointmentsActivity.showToast(closeConsultantResponse.getMsg() + "\n" + "time :" + elapsedTime);
+                    allAppointmentsActivity.getAllAppointments();
+
+                } else {
+                    allAppointmentsActivity.showAlertDialog("Error :" + response.code());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<CloseConsultantResponse> call, Throwable t) {
+                allAppointmentsActivity.closeDialog();
                 allAppointmentsActivity.showAlertDialog(t.getMessage());
             }
         });
@@ -207,10 +287,10 @@ public class AllAppointmentsAdapter extends RecyclerSwipeAdapter<AllAppointments
     public int getItemCount() {
         return allAppointmentsResponses.size();
     }
-
     @Override
     public int getSwipeLayoutResourceId(int position) {
 
         return R.id.swipe;
     }
+
 }

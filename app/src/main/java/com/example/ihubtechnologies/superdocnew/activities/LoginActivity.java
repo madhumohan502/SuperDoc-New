@@ -45,45 +45,40 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.iv_get_otp)
     public void onViewClicked() {
-        if (!etMobile.getText().toString().isEmpty()){
-            Call<LoginResponse> call = serviceCalls.doLogin(etMobile.getText().toString());
-            showDialog();
-            call.enqueue(new Callback<LoginResponse>() {
-                @Override
-                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                    closeDialog();
-                    if (response.code()==200){
-                        LoginResponse loginResponse = response.body();
+        if (internetStatus.isNetworkAvailable()) {
+            if (!etMobile.getText().toString().isEmpty()) {
+                Call<LoginResponse> call = serviceCalls.doLogin(etMobile.getText().toString());
+                showDialog();
+                call.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        closeDialog();
+                        if (response.code() == 200) {
+                            LoginResponse loginResponse = response.body();
 //                    Toast.makeText(LoginActivity.this, "OTP will fetch automatically", Toast.LENGTH_LONG).show();
-                        Toast.makeText(LoginActivity.this, loginResponse.getMsg(), Toast.LENGTH_LONG).show();
-                        Intent i = new Intent(LoginActivity.this,OtpActivity.class);
-                        i.putExtra("mobile",etMobile.getText().toString());
-                        startActivity(i);
-                        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
-                    }else {
-                        showAlertDialog("Error :"+response.code());
+                            Toast.makeText(LoginActivity.this, loginResponse.getMsg(), Toast.LENGTH_LONG).show();
+                            Intent i = new Intent(LoginActivity.this, OtpActivity.class);
+                            i.putExtra("mobile", etMobile.getText().toString());
+                            startActivity(i);
+                            overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
+                        } else {
+                            showAlertDialog("Error :" + response.code());
+                        }
+
                     }
 
-                }
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        closeDialog();
+                        showAlertDialog(t.getMessage());
+                    }
+                });
+            } else {
+                Toast.makeText(LoginActivity.this, "please enter mobile number", Toast.LENGTH_LONG).show();
+            }
 
-                @Override
-                public void onFailure(Call<LoginResponse> call, Throwable t) {
-                    closeDialog();
-                    showAlertDialog(t.getMessage());
-                }
-            });
         }else {
-            Toast.makeText(LoginActivity.this,"please enter mobile number",Toast.LENGTH_LONG).show();
+            showToast("please connect to the internet");
         }
-
-
-
-
-
-
-//        Intent i = new Intent(LoginActivity.this,OtpActivity.class);
-//        i.putExtra("mobile",etMobile.getText().toString());
-//        startActivity(i);
-//        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }
