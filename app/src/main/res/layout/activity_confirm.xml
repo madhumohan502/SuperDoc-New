@@ -28,10 +28,9 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="20dp"
-            android:hint="Dr.Tarun"
-            android:textColor="#707070"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:text="Dr.Tarun"
+            android:textColor="#343434"
+            android:textSize="20sp" />
     </LinearLayout>
 
     <LinearLayout
@@ -48,6 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp"
             android:gravity="center"
+            android:textSize="18sp"
             android:text="You've been connected with"
             android:textColor="#707070" />
 
@@ -57,9 +57,19 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:gravity="center"
-            android:hint="Ankura Hospital"
+            android:text="Ankura Hospital"
             android:textColor="#707070"
             android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/tv_hospital_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Uppal"
+            android:textSize="20sp"
+            android:textColor="#582974"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/thankyou"
@@ -68,7 +78,7 @@
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="Thank You!"
-            android:textColor="#582974" />
+            android:textColor="#601577" />
 
         <!--<TextView-->
             <!--android:id="@+id/wewillshowup"-->
@@ -83,29 +93,35 @@
 
     <LinearLayout
         android:id="@+id/layout_gotoactualscreen"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_gravity="right"
-        android:layout_marginRight="50dp"
-        android:layout_weight="0.25"
+        android:layout_weight="0.2"
+        android:gravity="right|bottom"
         android:orientation="vertical">
 
-
-        <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="right"-->
-        <!--android:text=""-->
-        <!--android:textColor="#14bbd3" />-->
-        <ImageView
+        <LinearLayout
             android:id="@+id/iv_verify_otp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="10dp"
+            android:text="Check-In"
+            android:textColor="#14bbd3"
+            android:textSize="17sp" />
+        <ImageView
+
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_gravity="right"
-            android:layout_marginTop="20dp"
             android:layout_marginRight="30dp"
+            android:layout_gravity="right"
             android:background="@drawable/rounded_shape"
             android:src="@drawable/ic_keyboard_arrow_right_black_24dp" />
+        </LinearLayout>
         <!--<TextView-->
         <!--android:layout_width="wrap_content"-->
         <!--android:layout_height="wrap_content"-->
@@ -116,5 +132,9 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.15" />
 
 </LinearLayout>

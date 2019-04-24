@@ -103,9 +103,6 @@
                 android:enabled="false"
                 android:hint="0" />
 
-
-
-
         </LinearLayout>
 
         <ImageView
