@@ -3,6 +3,7 @@ package com.example.ihubtechnologies.superdocnew.adapters;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,7 +46,7 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
         holder.tvDate.setTypeface(doctorSessionActivity.faceLight);
         holder.tvHospitalName.setTypeface(doctorSessionActivity.faceLight);
         holder.tvFromToTime.setTypeface(doctorSessionActivity.faceLight);
-        ViewCompat.setTransitionName(holder.transation_layout, doctorSessionResponses.get(i).getOrganizationName());
+        ViewCompat.setTransitionName(holder.cardView, doctorSessionResponses.get(i).getOrganizationName());
 
 
         holder.cardview_item.setOnClickListener(new View.OnClickListener() {
@@ -56,7 +57,7 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
 //                intent.putExtra("OrganizationName", doctorSessionResponses.get(i).getOrganizationName());
 //                intent.putExtra("SessionTime", doctorSessionResponses.get(i).getSessionTime());
 //                doctorSessionActivity.startActivity(intent);
-                doctorSessionActivity.sendData(i,holder.transation_layout,doctorSessionResponses.get(i).getTodayAppointmentsCount(),doctorSessionResponses.get(i).getOrganizationName(),doctorSessionResponses.get(i).getSessionTime());
+                doctorSessionActivity.sendData(i,holder.cardView,doctorSessionResponses.get(i).getTodayAppointmentsCount(),doctorSessionResponses.get(i).getOrganizationName(),doctorSessionResponses.get(i).getSessionTime());
             }
         });
     }
@@ -67,6 +68,6 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
     }
 
     public interface redirector{
-        public void sendData(int a, LinearLayout linearLayout, int count, String orgName, String time);
+        public void sendData(int a, CardView cardView, int count, String orgName, String time);
     }
 }

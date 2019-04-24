@@ -20,7 +20,8 @@
             android:layout_height="80dp"
             android:layout_margin="20dp"
             app:cardBackgroundColor="#14BBD3"
-            app:cardCornerRadius="10dp">
+            app:cardCornerRadius="10dp"
+            android:id="@+id/id_card_item2">
 
             <LinearLayout
                 android:id="@+id/cardview_item"
