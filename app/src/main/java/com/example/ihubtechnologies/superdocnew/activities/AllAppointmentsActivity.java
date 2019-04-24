@@ -3,6 +3,7 @@ package com.example.ihubtechnologies.superdocnew.activities;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
@@ -36,6 +37,7 @@ public class AllAppointmentsActivity extends BaseActivity {
     String AppointmentsCount, OrganizationName, SessionTime;
     int int_allAppointmentsSize, int_noshowAppointmentsSize, int_checkinAppointmentsSize, int_cancelAppointmentsSize;
     LinearLayout linearLayout;
+    CardView cardView2;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +62,7 @@ public class AllAppointmentsActivity extends BaseActivity {
         tvSessionTime = findViewById(R.id.tv_session_time);
 
         linearLayout = findViewById(R.id.id_layout1);
+        cardView2 = findViewById(R.id.id_card_item2);
 
         tvAppointmentsCount.setTypeface(faceLight);
         tvHospitalName.setTypeface(faceLight);
@@ -70,7 +73,7 @@ public class AllAppointmentsActivity extends BaseActivity {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             String imageTransitionName =  getIntent().getExtras().getString("name");
-            linearLayout.setTransitionName(imageTransitionName);
+            cardView2.setTransitionName(imageTransitionName);
             tvAppointmentsCount.setText(AppointmentsCount);
             tvHospitalName.setText(OrganizationName);
             tvSessionTime.setText(SessionTime);

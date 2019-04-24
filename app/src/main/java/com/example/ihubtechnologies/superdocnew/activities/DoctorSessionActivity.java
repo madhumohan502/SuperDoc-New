@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -77,18 +78,18 @@ TextView tvHello;
     }
 
     @Override
-    public void sendData(int a, LinearLayout linearLayout, int count, String orgName, String time) {
+    public void sendData(int a, CardView cardView, int count, String orgName, String time) {
         Intent intent = new Intent(DoctorSessionActivity.this, AllAppointmentsActivity.class);
         intent.putExtra("AppointmentsCount", String.valueOf(count));
         intent.putExtra("OrganizationName",orgName);
         intent.putExtra("SessionTime",time);
 
-        intent.putExtra("name", ViewCompat.getTransitionName(linearLayout));
+        intent.putExtra("name", ViewCompat.getTransitionName(cardView));
 
         ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                 DoctorSessionActivity.this,
-                linearLayout,
-                ViewCompat.getTransitionName(linearLayout));
+                cardView,
+                ViewCompat.getTransitionName(cardView));
 
         ActivityCompat.startActivity(DoctorSessionActivity.this, intent, options.toBundle());
 
