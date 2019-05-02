@@ -34,8 +34,8 @@ public class ConfirmedAppointmentsAdapter extends RecyclerView.Adapter<Confirmed
     @Override
     public void onBindViewHolder(@NonNull ConfirmedAppointmentsHolder holder, int i) {
         holder.tvTime.setText(confirmedAppointmentsResponseList.get(i).getApptTime());
-        holder.tvPatientName.setText(confirmedAppointmentsResponseList.get(i).getPatientName());
-        holder.tvApptStatus.setText(confirmedAppointmentsResponseList.get(i).getApptStatus() + "/" + confirmedAppointmentsResponseList.get(i).getApptID());
+        holder.tvPatientName.setText(confirmedAppointmentsResponseList.get(i).getPatientName()+ "/" + confirmedAppointmentsResponseList.get(i).getApptID());
+        holder.tvApptStatus.setText(confirmedAppointmentsResponseList.get(i).getApptStatus());
     }
 
     @Override

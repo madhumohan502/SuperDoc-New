@@ -30,4 +30,12 @@ public class OtpVerificationRequest {
     public void setOtpNumber(String otpNumber) {
         this.otpNumber = otpNumber;
     }
+
+    @Override
+    public String toString() {
+        return "OtpVerificationRequest{" +
+                "mobileNumber='" + mobileNumber + '\'' +
+                ", otpNumber='" + otpNumber + '\'' +
+                '}';
+    }
 }

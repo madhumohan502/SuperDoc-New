@@ -64,7 +64,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/rectangular_shape"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:textColor="#707070"
                     android:gravity="center"
                     android:hint="0" />
@@ -74,7 +74,7 @@
                     android:layout_width="40dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="10dp"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:textColor="#707070"
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
@@ -88,7 +88,7 @@
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
                     android:textColor="#707070"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:hint="0" />
 
                 <EditText
@@ -99,7 +99,7 @@
                     android:textColor="#707070"
                     android:background="@drawable/rectangular_shape"
                     android:gravity="center"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:hint="0" />
 
             </LinearLayout>

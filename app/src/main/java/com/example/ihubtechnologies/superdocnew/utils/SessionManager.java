@@ -14,13 +14,15 @@ import com.example.ihubtechnologies.superdocnew.activities.LoginActivity;
 public class SessionManager {
     private static SessionManager sessionManager;
     static SharedPreferences sharedPreferences;
-    SharedPreferences.Editor editor;
+    SharedPreferences.Editor editor,editor2;
     Context context;
 
 
     public static final String DOCTORID = "doctorid";
     public static final String DOCTORNAME = "doctorname";
     public static final String HOSPITALNAME = "hospitalname";
+    public static final String APPID = null;
+
 
 
 
@@ -49,6 +51,14 @@ public class SessionManager {
         return sharedPreferences.getString(DOCTORID, null);
     }
 
+    public void setAPPID(String appid) {
+        editor2.putString(APPID, appid);
+        editor2.commit();
+    }
+
+    public static String getAPPID() {
+        return sharedPreferences.getString(APPID, null);
+    }
 
 
     public static SessionManager getInstance(Context context) {
@@ -62,16 +72,20 @@ public class SessionManager {
         this.context = context;
         sharedPreferences = context.getSharedPreferences("IHUB_DB", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+        editor2 = sharedPreferences.edit();
     }
-
-    public void logout() {
-        editor.clear();
-        editor.commit();
-        Intent i = new Intent(context, LoginActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        context.startActivity(i);
-    }
+public void logout(){
+        editor2.clear();
+        //editor2.commit();
+}
+//    public void logout() {
+//        editor.clear();
+//        editor.commit();
+//        Intent i = new Intent(context, LoginActivity.class);
+//        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//        context.startActivity(i);
+//    }
 }
 
 

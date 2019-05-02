@@ -5,11 +5,15 @@ import com.example.ihubtechnologies.superdocnew.pojos.request.CloseConsultantReq
 import com.example.ihubtechnologies.superdocnew.pojos.request.OtpVerificationRequest;
 import com.example.ihubtechnologies.superdocnew.pojos.request.StartConsultantRequest;
 import com.example.ihubtechnologies.superdocnew.pojos.response.AllAppointmentsResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.CancelAppointmentResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.GetListOfCancelledAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.CloseConsultantResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.ClosedAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.ConfirmedAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.DoctorSessionResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.GetListOfNoShowAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.LoginResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.NoShowAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.OtpVerificationResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.StartConsultantResponse;
 
@@ -54,4 +58,16 @@ public interface ServiceCalls {
 
     @GET("listOfAllAppointments")
     Call<List<AllAppointmentsResponse>> getAllAppointments(@Query("doctorId") String doctorid);
+
+    @GET("cancelAppointment")
+    Call<CancelAppointmentResponse> cancelAppointment(@Query("apptId") int appid);
+
+    @GET("getListOfCancelledAppointments")
+    Call<List<GetListOfCancelledAppointmentsResponse>> getListOfCancelledAppointments(@Query("doctorId") String doctorId);
+
+    @GET("getListOfNoShowAppointments")
+    Call<List<GetListOfNoShowAppointmentsResponse>> getListOfNoShowAppointments(@Query("doctorId") String doctorid);
+
+    @GET("noShowAppointment")
+    Call<NoShowAppointmentsResponse> noShowAppointment(@Query("apptId") int appid,@Query("isShow")  boolean isShow);
 }

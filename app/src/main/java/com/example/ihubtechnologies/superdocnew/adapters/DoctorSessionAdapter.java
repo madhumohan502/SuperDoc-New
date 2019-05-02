@@ -2,6 +2,8 @@ package com.example.ihubtechnologies.superdocnew.adapters;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -57,7 +59,29 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
 //                intent.putExtra("OrganizationName", doctorSessionResponses.get(i).getOrganizationName());
 //                intent.putExtra("SessionTime", doctorSessionResponses.get(i).getSessionTime());
 //                doctorSessionActivity.startActivity(intent);
-                doctorSessionActivity.sendData(i,holder.cardView,doctorSessionResponses.get(i).getTodayAppointmentsCount(),doctorSessionResponses.get(i).getOrganizationName(),doctorSessionResponses.get(i).getSessionTime());
+//
+//
+// doctorSessionActivity.sendData(i,holder.cardView,
+//                        doctorSessionResponses.get(i).getTodayAppointmentsCount(),
+//                        doctorSessionResponses.get(i).getOrganizationName(),
+//                        doctorSessionResponses.get(i).getSessionTime());
+
+
+                Intent intent = new Intent(doctorSessionActivity, AllAppointmentsActivity.class);
+                intent.putExtra("AppointmentsCount", String.valueOf(doctorSessionResponses.get(i).getTodayAppointmentsCount()));
+                intent.putExtra("OrganizationName", doctorSessionResponses.get(i).getOrganizationName());
+                intent.putExtra("SessionTime", doctorSessionResponses.get(i).getSessionTime());
+
+                intent.putExtra("name", ViewCompat.getTransitionName(holder.cardView));
+
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                        doctorSessionActivity,
+                        holder.cardView,
+                        ViewCompat.getTransitionName(holder.cardView));
+
+                ActivityCompat.startActivity(doctorSessionActivity, intent, options.toBundle());
+
+
             }
         });
     }
@@ -67,7 +91,7 @@ public class DoctorSessionAdapter extends RecyclerView.Adapter<DoctorSessionHold
         return doctorSessionResponses.size();
     }
 
-    public interface redirector{
-        public void sendData(int a, CardView cardView, int count, String orgName, String time);
-    }
+//    public interface redirector{
+//        public void sendData(int a, CardView cardView, int count, String orgName, String time);
+//    }
 }

@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -14,11 +13,14 @@ import android.widget.TextView;
 
 import com.example.ihubtechnologies.superdocnew.R;
 import com.example.ihubtechnologies.superdocnew.adapters.AllAppointmentsAdapter;
+import com.example.ihubtechnologies.superdocnew.adapters.CancelledAppointmentsAdapter;
 import com.example.ihubtechnologies.superdocnew.adapters.ConfirmedAppointmentsAdapter;
+import com.example.ihubtechnologies.superdocnew.adapters.NoShowAppointmentsAdapter;
 import com.example.ihubtechnologies.superdocnew.pojos.response.AllAppointmentsResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.GetListOfCancelledAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.pojos.response.ConfirmedAppointmentsResponse;
+import com.example.ihubtechnologies.superdocnew.pojos.response.GetListOfNoShowAppointmentsResponse;
 import com.example.ihubtechnologies.superdocnew.utils.BaseActivity;
-import com.example.ihubtechnologies.superdocnew.utils.SessionManager;
 
 import java.util.List;
 
@@ -34,6 +36,9 @@ public class AllAppointmentsActivity extends BaseActivity {
     TextView allAppointmentsSize, checkinAppointmentsSize, noshowAppointmentsSize, cancelAppointmentsSize;
    public AllAppointmentsAdapter allAppointmentsAdapter;
    public ConfirmedAppointmentsAdapter confirmedAppointmentsAdapter;
+    public NoShowAppointmentsAdapter noShowAppointmentsAdapter;
+    public CancelledAppointmentsAdapter cancelledAppointmentsAdapter;
+
     String AppointmentsCount, OrganizationName, SessionTime;
     int int_allAppointmentsSize, int_noshowAppointmentsSize, int_checkinAppointmentsSize, int_cancelAppointmentsSize;
     LinearLayout linearLayout;
@@ -78,9 +83,8 @@ public class AllAppointmentsActivity extends BaseActivity {
             tvHospitalName.setText(OrganizationName);
             tvSessionTime.setText(SessionTime);
             supportStartPostponedEnterTransition();
-
-
         }
+
         rview = findViewById(R.id.rview);
         linearLayoutManager = new LinearLayoutManager(this);
         rview.setLayoutManager(linearLayoutManager);
@@ -88,6 +92,9 @@ public class AllAppointmentsActivity extends BaseActivity {
 
         getAllAppointmentsSize();
         getlistOfConfirmedAppointmentsSize();
+        getlistOfNoShowAppointmentsSize();
+        getlistOfCancelledAppointmentsSize();
+
         getAllAppointments();
 
 
@@ -99,6 +106,11 @@ public class AllAppointmentsActivity extends BaseActivity {
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 getAllAppointments();
+
+                getlistOfCancelledAppointmentsSize();
+                getlistOfNoShowAppointmentsSize();
+                getlistOfConfirmedAppointmentsSize();
+                getAllAppointmentsSize();
             }
         });
         checkinAppointments.setOnClickListener(new View.OnClickListener() {
@@ -109,6 +121,11 @@ public class AllAppointmentsActivity extends BaseActivity {
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 getlistOfConfirmedAppointments();
+
+                getlistOfCancelledAppointmentsSize();
+                getlistOfNoShowAppointmentsSize();
+                getlistOfConfirmedAppointmentsSize();
+                getAllAppointmentsSize();
             }
         });
         noshowAppointments.setOnClickListener(new View.OnClickListener() {
@@ -118,7 +135,12 @@ public class AllAppointmentsActivity extends BaseActivity {
                 checkinAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_dark);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
-                getlistOfConfirmedAppointments();
+                getlistOfNoShowAppointments();
+
+                getlistOfCancelledAppointmentsSize();
+                getlistOfNoShowAppointmentsSize();
+                getlistOfConfirmedAppointmentsSize();
+                getAllAppointmentsSize();
             }
         });
         cancelAppointments.setOnClickListener(new View.OnClickListener() {
@@ -128,40 +150,19 @@ public class AllAppointmentsActivity extends BaseActivity {
                 checkinAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 noshowAppointments.setBackgroundResource(R.drawable.tv_bottom_line_light);
                 cancelAppointments.setBackgroundResource(R.drawable.tv_bottom_line_dark);
-                getlistOfConfirmedAppointments();
+                getlistOfCancelledAppointments();
+
+                getlistOfCancelledAppointmentsSize();
+                getlistOfNoShowAppointmentsSize();
+                getlistOfConfirmedAppointmentsSize();
+                getAllAppointmentsSize();
             }
         });
 
     }
 
 
-    private void getlistOfConfirmedAppointmentsSize() {
-        Call<List<ConfirmedAppointmentsResponse>> call = serviceCalls.getListOfConfirmedAppointments(sessionManager.getDOCTORID());
-//        showDialog();
-        call.enqueue(new Callback<List<ConfirmedAppointmentsResponse>>() {
-            @Override
-            public void onResponse(Call<List<ConfirmedAppointmentsResponse>> call, Response<List<ConfirmedAppointmentsResponse>> response) {
-//                closeDialog();
-                if (response.code() == 200) {
-                    List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList = response.body();
-                    int_checkinAppointmentsSize = confirmedAppointmentsResponseList.size();
-                    checkinAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
-                    noshowAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
-                    cancelAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
-                } else {
-                    showAlertDialog("Error :" + response.code());
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<ConfirmedAppointmentsResponse>> call, Throwable t) {
-//                closeDialog();
-                showAlertDialog(t.getMessage());
-            }
-        });
-    }
-
-    private void getAllAppointmentsSize() {
+    public void getAllAppointmentsSize() {
         Call<List<AllAppointmentsResponse>> call = serviceCalls.getAllAppointments(sessionManager.getDOCTORID());
 //        showDialog();
         call.enqueue(new Callback<List<AllAppointmentsResponse>>() {
@@ -174,9 +175,10 @@ public class AllAppointmentsActivity extends BaseActivity {
                     Log.d("sizeeeee", String.valueOf(int_allAppointmentsSize));
                     allAppointmentsSize.setText(String.valueOf(int_allAppointmentsSize));
 
-                } else {
-                    showAlertDialog("Error :"+response.code());
                 }
+//                else {
+//                    showAlertDialog("Error :" + response.code() + "7");
+//                }
             }
 
             @Override
@@ -189,44 +191,72 @@ public class AllAppointmentsActivity extends BaseActivity {
 
     public void getAllAppointments() {
         Call<List<AllAppointmentsResponse>> call = serviceCalls.getAllAppointments(sessionManager.getDOCTORID());
-
+//        showDialog();
         call.enqueue(new Callback<List<AllAppointmentsResponse>>() {
             @Override
             public void onResponse(Call<List<AllAppointmentsResponse>> call, Response<List<AllAppointmentsResponse>> response) {
-
+//                closeDialog();
                 if (response.code() == 200) {
                     List<AllAppointmentsResponse> allAppointmentsResponses = response.body();
                     if (allAppointmentsResponses.size()==0){
+                        rview.setAdapter(null);
                         showAlertDialog("No Appointments Found");
                     }else {
                         allAppointmentsAdapter = new AllAppointmentsAdapter(AllAppointmentsActivity.this, allAppointmentsResponses);
                         rview.setAdapter(allAppointmentsAdapter);
                         allAppointmentsAdapter.notifyDataSetChanged();
 
+
 //                        LinearSnapHelper linearSnapHelper = new SnapHelperOneByOne();
 //                        linearSnapHelper.attachToRecyclerView(rview);
 
                     }
                 } else {
-                    showAlertDialog("Error :"+response.code());
+                    showAlertDialog("Error :" + response.code() + "appointments");
                 }
             }
 
             @Override
             public void onFailure(Call<List<AllAppointmentsResponse>> call, Throwable t) {
-                closeDialog();
+//                closeDialog();
                 showAlertDialog(t.getMessage());
             }
         });
     }
 
-    public void getlistOfConfirmedAppointments() {
+
+    public void getlistOfConfirmedAppointmentsSize() {
         Call<List<ConfirmedAppointmentsResponse>> call = serviceCalls.getListOfConfirmedAppointments(sessionManager.getDOCTORID());
 //        showDialog();
         call.enqueue(new Callback<List<ConfirmedAppointmentsResponse>>() {
             @Override
             public void onResponse(Call<List<ConfirmedAppointmentsResponse>> call, Response<List<ConfirmedAppointmentsResponse>> response) {
 //                closeDialog();
+                if (response.code() == 200) {
+                    List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList = response.body();
+                    int_checkinAppointmentsSize = confirmedAppointmentsResponseList.size();
+                    checkinAppointmentsSize.setText(String.valueOf(int_checkinAppointmentsSize));
+                }
+//                else {
+//                    showAlertDialog("Error :" + response.code() + "5");
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<List<ConfirmedAppointmentsResponse>> call, Throwable t) {
+//                closeDialog();
+                showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    private void getlistOfConfirmedAppointments() {
+        Call<List<ConfirmedAppointmentsResponse>> call = serviceCalls.getListOfConfirmedAppointments(sessionManager.getDOCTORID());
+        showDialog();
+        call.enqueue(new Callback<List<ConfirmedAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<ConfirmedAppointmentsResponse>> call, Response<List<ConfirmedAppointmentsResponse>> response) {
+                closeDialog();
                 if (response.code() == 200) {
                     List<ConfirmedAppointmentsResponse> confirmedAppointmentsResponseList = response.body();
                     if (confirmedAppointmentsResponseList.size()==0){
@@ -242,15 +272,129 @@ public class AllAppointmentsActivity extends BaseActivity {
 
                     }
                 } else {
-                    showAlertDialog("Error :" + response.code());
+                    showAlertDialog("Error :" + response.code() + "confirmed");
                 }
             }
 
             @Override
             public void onFailure(Call<List<ConfirmedAppointmentsResponse>> call, Throwable t) {
-//                closeDialog();
+                closeDialog();
                 showAlertDialog(t.getMessage());
             }
         });
+    }
+
+    public void getlistOfCancelledAppointmentsSize() {
+        Call<List<GetListOfCancelledAppointmentsResponse>> call = serviceCalls.getListOfCancelledAppointments(sessionManager.getDOCTORID());
+        call.enqueue(new Callback<List<GetListOfCancelledAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetListOfCancelledAppointmentsResponse>> call, Response<List<GetListOfCancelledAppointmentsResponse>> response) {
+                if (response.code() == 200) {
+                    List<GetListOfCancelledAppointmentsResponse> cancelledAppointmentsResponseList = response.body();
+                    int_cancelAppointmentsSize = cancelledAppointmentsResponseList.size();
+                    cancelAppointmentsSize.setText(String.valueOf(int_cancelAppointmentsSize));
+                }
+//                else {
+//                    showAlertDialog("Error :" + response.code() + "1");
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetListOfCancelledAppointmentsResponse>> call, Throwable t) {
+                showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    private void getlistOfCancelledAppointments() {
+        Call<List<GetListOfCancelledAppointmentsResponse>> call = serviceCalls.getListOfCancelledAppointments(sessionManager.getDOCTORID());
+        showDialog();
+        call.enqueue(new Callback<List<GetListOfCancelledAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetListOfCancelledAppointmentsResponse>> call, Response<List<GetListOfCancelledAppointmentsResponse>> response) {
+                closeDialog();
+                if (response.code() == 200) {
+                    List<GetListOfCancelledAppointmentsResponse> cancelledAppointmentsResponseList = response.body();
+                    if (cancelledAppointmentsResponseList.size() == 0) {
+                        rview.setAdapter(null);
+                        showAlertDialog("No Cancelled Appointments Found");
+                    } else {
+                        cancelledAppointmentsAdapter = new CancelledAppointmentsAdapter(AllAppointmentsActivity.this, cancelledAppointmentsResponseList);
+                        rview.setAdapter(cancelledAppointmentsAdapter);
+                        cancelledAppointmentsAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    showAlertDialog("Error :" + response.code() + "cancel");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetListOfCancelledAppointmentsResponse>> call, Throwable t) {
+                closeDialog();
+                showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    public void getlistOfNoShowAppointmentsSize() {
+        Call<List<GetListOfNoShowAppointmentsResponse>> call = serviceCalls.getListOfNoShowAppointments(sessionManager.getDOCTORID());
+        call.enqueue(new Callback<List<GetListOfNoShowAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetListOfNoShowAppointmentsResponse>> call, Response<List<GetListOfNoShowAppointmentsResponse>> response) {
+                if (response.code() == 200) {
+                    List<GetListOfNoShowAppointmentsResponse> getListOfNoShowAppointmentsResponseList = response.body();
+                    int_noshowAppointmentsSize = getListOfNoShowAppointmentsResponseList.size();
+                    noshowAppointmentsSize.setText(String.valueOf(int_noshowAppointmentsSize));
+                }
+//                else {
+//                    showAlertDialog("Error :" + response.code() + "no_show_size");
+//                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetListOfNoShowAppointmentsResponse>> call, Throwable t) {
+                showAlertDialog(t.getMessage());
+            }
+        });
+
+    }
+
+    private void getlistOfNoShowAppointments() {
+        Call<List<GetListOfNoShowAppointmentsResponse>> call = serviceCalls.getListOfNoShowAppointments(sessionManager.getDOCTORID());
+        showDialog();
+        call.enqueue(new Callback<List<GetListOfNoShowAppointmentsResponse>>() {
+            @Override
+            public void onResponse(Call<List<GetListOfNoShowAppointmentsResponse>> call, Response<List<GetListOfNoShowAppointmentsResponse>> response) {
+                closeDialog();
+                if (response.code() == 200) {
+                    List<GetListOfNoShowAppointmentsResponse> noShowAppointmentsResponseList = response.body();
+                    if (noShowAppointmentsResponseList.size() == 0) {
+                        rview.setAdapter(null);
+                        showAlertDialog("No no-show Appointments Found");
+                    } else {
+                        noShowAppointmentsAdapter = new NoShowAppointmentsAdapter(AllAppointmentsActivity.this, noShowAppointmentsResponseList);
+                        rview.setAdapter(noShowAppointmentsAdapter);
+                        noShowAppointmentsAdapter.notifyDataSetChanged();
+                    }
+                } else {
+                    showAlertDialog("Error :" + response.code() + "no-show");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<List<GetListOfNoShowAppointmentsResponse>> call, Throwable t) {
+                closeDialog();
+                showAlertDialog(t.getMessage());
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        getAllAppointmentsSize();
+        getlistOfConfirmedAppointmentsSize();
+        getlistOfNoShowAppointmentsSize();
+        getlistOfCancelledAppointmentsSize();
     }
 }

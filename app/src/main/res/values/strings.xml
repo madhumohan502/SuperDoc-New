@@ -3,4 +3,12 @@
     <string name="loading_text">Loading...</string>
     <string name="startconsult">START \n CONSULT</string>
     <string name="checkout">CHECK \n OUT</string>
+
+    <string name="status"><![CDATA[<b><font color=\'#cc0029\'>Appt Status :</font></b>]]></string>
+
+
+
+    <string name="booked_date"><![CDATA[<b><font color=#FF0000>Booked Date :</font></b>]]></string>
+    <string name="patient_name"><![CDATA[<b><font color=#FF0000>Patient Name :</font></b>]]></string>
+    <string name="patient_id"><![CDATA[<b><font color=#FF0000>Patient ID :</font></b>]]></string>
 </resources>

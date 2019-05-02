@@ -11,6 +11,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -32,10 +35,10 @@ import retrofit2.Response;
 
 public class OtpActivity extends BaseActivity implements View.OnClickListener{
     String mobile;
-    EditText et_1,et_2,et_3,et_4;
+    public EditText et_1, et_2, et_3, et_4;
     ImageView iv_verify_otp;
     private BroadcastReceiver receiver;
-    String message;
+    String message, otpMsg;
     TextView supdoc3;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +62,81 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
         iv_verify_otp = findViewById(R.id.iv_verify_otp);
 
 
+        et_1.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_1.getText().toString().length() == 1) {
+                    et_2.requestFocus();
+                }
+            }
+        });
+        et_2.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_2.getText().toString().length() == 1) {
+                    et_3.requestFocus();
+                }else if(et_2.getText().toString().length() == 0)
+                    et_1.requestFocus();
+            }
+        });
+        et_3.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_3.getText().toString().length() == 1) {
+                    et_4.requestFocus();
+                }else if(et_3.getText().toString().length() == 0)
+                    et_2.requestFocus();
+            }
+        });
+        et_4.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (et_4.getText().toString().length() == 0) {
+                    et_3.requestFocus();
+                }
+            }
+        });
+
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -72,6 +150,7 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
                     et_2.setText(message2);
                     et_3.setText(message3);
                     et_4.setText(message4);
+
                     //Do whatever you want with the code here
                 }
             }
@@ -110,7 +189,7 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
                     Toast.makeText(OtpActivity.this, "Permission granted", Toast.LENGTH_SHORT).show();
 
                 } else {
-
+                    Toast.makeText(OtpActivity.this, "Permission denied", Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -127,14 +206,16 @@ public class OtpActivity extends BaseActivity implements View.OnClickListener{
 //        startActivity(i);
 //        finish();
 //    }
-
+//1205
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.iv_verify_otp:
 //                Intent i = new Intent(OtpActivity.this,HomeActivity.class);
 //                startActivity(i);
-                final OtpVerificationRequest otpVerificationRequest = new OtpVerificationRequest(mobile, message);
+                otpMsg = et_1.getText().toString() + et_2.getText().toString() + et_3.getText().toString() + et_4.getText().toString();
+                final OtpVerificationRequest otpVerificationRequest = new OtpVerificationRequest(mobile, otpMsg);
+                Log.d("otprequest", otpVerificationRequest.toString() + "\n" + message);
                 Call<OtpVerificationResponse> call = serviceCalls.doVerifyOTP(otpVerificationRequest);
                 showDialog();
                 call.enqueue(new Callback<OtpVerificationResponse>() {

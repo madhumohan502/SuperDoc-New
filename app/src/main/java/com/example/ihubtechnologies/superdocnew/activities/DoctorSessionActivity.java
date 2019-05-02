@@ -25,7 +25,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DoctorSessionActivity extends BaseActivity implements DoctorSessionAdapter.redirector {
+public class DoctorSessionActivity extends BaseActivity  {
+    //implements DoctorSessionAdapter.redirector
     RecyclerView rview;
     DoctorSessionAdapter doctorSessionAdapter;
 TextView tvDoctorName;
@@ -76,22 +77,22 @@ TextView tvHello;
             }
         });
     }
-
-    @Override
-    public void sendData(int a, CardView cardView, int count, String orgName, String time) {
-        Intent intent = new Intent(DoctorSessionActivity.this, AllAppointmentsActivity.class);
-        intent.putExtra("AppointmentsCount", String.valueOf(count));
-        intent.putExtra("OrganizationName",orgName);
-        intent.putExtra("SessionTime",time);
-
-        intent.putExtra("name", ViewCompat.getTransitionName(cardView));
-
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                DoctorSessionActivity.this,
-                cardView,
-                ViewCompat.getTransitionName(cardView));
-
-        ActivityCompat.startActivity(DoctorSessionActivity.this, intent, options.toBundle());
-
-    }
+//
+//    @Override
+//    public void sendData(int a, CardView cardView, int count, String orgName, String time) {
+//        Intent intent = new Intent(DoctorSessionActivity.this, AllAppointmentsActivity.class);
+//        intent.putExtra("AppointmentsCount", String.valueOf(count));
+//        intent.putExtra("OrganizationName",orgName);
+//        intent.putExtra("SessionTime",time);
+//
+//        intent.putExtra("name", ViewCompat.getTransitionName(cardView));
+//
+//        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+//                DoctorSessionActivity.this,
+//                cardView,
+//                ViewCompat.getTransitionName(cardView));
+//
+//        ActivityCompat.startActivity(DoctorSessionActivity.this, intent, options.toBundle());
+//
+//    }
 }

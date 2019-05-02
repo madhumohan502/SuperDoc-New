@@ -18,28 +18,30 @@ public class AllAppointmentsHolder extends RecyclerView.ViewHolder {
 
 
 
-    public SwipeLayout swipeLayout;
-
+    public SwipeLayout swipeLayout, swipeLayout2;
+    public TextView checkout;
     public TextView tvTime,tvPatientName,tvApptStatus;
-    public LinearLayout left_to_right_undo,right_to_left;
+    public LinearLayout left_to_right_undo,right_to_left, left;;
     public TextView cancel,noshow;
 public LinearLayout startConsult;
     public TextView tvStart,tvConsult,tvUndoText;
     public ImageView ivUndoImage;
     public LinearLayout undo;
-public Button checkout;
+//public Button checkout;
     public LinearLayout layout_timer;
-    public Chronometer chronometer;
     public LinearLayout layout_undo;
+
+    public Chronometer chronometer;
     public long pauseOffSet;
     public boolean running;
     public AllAppointmentsHolder(@NonNull View itemView) {
         super(itemView);
         swipeLayout = itemView.findViewById(R.id.swipe);
-
+        swipeLayout2 = itemView.findViewById(R.id.swipe2);
 
         left_to_right_undo = itemView.findViewById(R.id.left_to_right_undo);
         right_to_left = itemView.findViewById(R.id.right_to_left);
+        left = itemView.findViewById(R.id.left);
 
         tvTime = itemView.findViewById(R.id.tv_time);
         tvPatientName = itemView.findViewById(R.id.tv_patient_name);
